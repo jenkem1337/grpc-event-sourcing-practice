@@ -1,0 +1,59 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: "Dockerfile"
+    ports:
+      - "9090:9090"
+    command:
+      - "backend"
+    environment:
+      - APP_PORT=9090
+      - DB_HOST=host.docker.internal
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=admin
+    networks:
+      java-app:
+
+  snapshot-client:
+    build:
+      context: .
+      dockerfile: "Dockerfile"
+    command:
+      - "snapshot-client"
+    environment:
+      - BACKEND_HOST=backend
+      - BACKEND_PORT=9090
+      - ETCD_TARGET=dns:///etcd:2379
+      - SNAPSHOT_THRESHOLD=5
+      - SCHEDULER_INITIAL_DELAY=5
+      - SCHEDULER_INTERVAL=60
+    depends_on:
+      - backend
+      - etcd
+    networks:
+      java-app:
+
+  etcd:
+    image: quay.io/coreos/etcd:v3.5.0
+    ports:
+      - "2379:2379"
+      - "2380:2380"
+    command:
+      - etcd
+      - --name
+      - s1
+      - --data-dir
+      - /etcd-data
+      - --listen-client-urls
+      - http://0.0.0.0:2379
+      - --advertise-client-urls
+      - http://0.0.0.0:2379
+      - --listen-peer-urls
+      - http://0.0.0.0:2380
+    networks:
+      java-app:
+
+networks:
+  java-app:

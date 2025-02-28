@@ -1,0 +1,89 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "org.EventSource.example.Application";
+option java_outer_classname = "ShoppingCart";
+
+import "google/protobuf/empty.proto";
+
+service ShoppingCartService {
+  rpc createCart (CreateShoppingCartRequest) returns (ShoppingCartCreatedResponse);
+  rpc addAnItem (AddAnItemRequest) returns (ItemAddedResponse);
+  rpc removeAnItem(RemoveAnItemRequest) returns (AnItemRemovedResponse);
+  rpc removeItem(RemoveItemRequest) returns (ItemRemovedResponse);
+  rpc completeShopping(CompleteShoppingRequest) returns (ShoppingCompletedResponse);
+}
+service ShoppingCartSnapshotService {
+  rpc getLatestAggregateStateForSnapshot(LatestAggregateStateRequest) returns (LatestAggregateStateResponse);
+  rpc saveSnapshot(SaveSnapshotRequest) returns (google.protobuf.Empty);
+}
+
+message LatestAggregateStateRequest {
+  uint32 versionThreshold = 1;
+}
+message Aggregate {
+  string aggregateId = 1;
+  string state = 2;
+  uint64 version = 3;
+}
+message Snapshot {
+  string aggregateId = 1;
+  string aggregateLatestState = 2;
+  uint64 version = 3;
+  uint64 latestSnapshotVersion = 4;
+  string aggregateType = 5;
+}
+
+message LatestAggregateStateResponse {
+  repeated Snapshot snapshots = 1;
+}
+message SaveSnapshotRequest {
+  repeated Snapshot snapshots = 1;
+}
+message SnapshotResponse {}
+message CompleteShoppingRequest {
+  string cartId = 1;
+}
+message ShoppingCompletedResponse {
+  string cartId = 1;
+}
+message ErrorResponse {
+  string errorMessage = 1;
+}
+message RemoveAnItemRequest {
+  string cartId = 1;
+  string cartItemId = 2;
+}
+
+message AnItemRemovedResponse {
+  string aggregateId = 1;
+}
+
+message RemoveItemRequest {
+  string cartId = 1;
+  string cartItemId = 2;
+}
+
+message ItemRemovedResponse {
+  string aggregateId = 1;
+}
+message CreateShoppingCartRequest {
+  string userId = 1;
+}
+
+message ShoppingCartCreatedResponse{
+  string uuid = 1;
+}
+
+message AddAnItemRequest {
+  string aggregateId = 1;
+  string cartItemId = 2;
+  string productId = 3;
+  string productName = 4;
+  uint64 moneyUnits = 5;
+  uint32 moneyNanos = 6;
+}
+
+message ItemAddedResponse {
+  string aggregateId = 1;
+}
