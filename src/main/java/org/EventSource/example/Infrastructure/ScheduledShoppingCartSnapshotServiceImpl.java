@@ -74,7 +74,7 @@ public class ScheduledShoppingCartSnapshotServiceImpl extends ScheduledSnapshotS
         Lease leaseClient = etcdClient.getLeaseClient();
 
         leaseClient.keepAliveOnce(leaseId).get();
-        System.out.println("Node " + nodeId + " liderliğini sürdürüyor. Lease yenilendi.");
+        System.out.println("Node " + nodeId + " continue to leadership. Lease has been renewed.");
 
     }
 
