@@ -38,14 +38,7 @@ public class ShoppingCartServiceImpl extends ShoppingCartServiceGrpc.ShoppingCar
         } catch (Exception e) {
             transactionManager.rollback();
             System.out.println(e.getMessage());
-            Metadata.Key<ErrorResponse> errorResponseKey = ProtoUtils.keyForProto(ErrorResponse.getDefaultInstance());
-            ErrorResponse errorResponse = ErrorResponse.newBuilder()
-                    .setErrorMessage(e.getMessage())
-                    .build();
-            Metadata metadata = new Metadata();
-            metadata.put(errorResponseKey, errorResponse);
-            streamObserver.onError(io.grpc.Status.INVALID_ARGUMENT.withDescription("The commodity is not supported")
-                    .asRuntimeException(metadata));
+            streamObserver.onError(e);
         }
     }
 
@@ -90,6 +83,7 @@ public class ShoppingCartServiceImpl extends ShoppingCartServiceGrpc.ShoppingCar
 
         } catch (Exception e) {
             transactionManager.rollback();
+            System.out.println(e.getMessage());
             streamObserver.onError(e);
         }
 
@@ -111,6 +105,7 @@ public class ShoppingCartServiceImpl extends ShoppingCartServiceGrpc.ShoppingCar
 
         } catch (Exception e) {
             transactionManager.rollback();
+            System.out.println(e.getMessage());
             streamObserver.onError(e);
         }
 
@@ -131,6 +126,7 @@ public class ShoppingCartServiceImpl extends ShoppingCartServiceGrpc.ShoppingCar
 
         } catch (Exception e) {
             transactionManager.rollback();
+            System.out.println(e.getMessage());
             streamObserver.onError(e);
         }
 
