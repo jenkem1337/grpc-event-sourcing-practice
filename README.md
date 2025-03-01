@@ -19,8 +19,8 @@ The purpose of this project is to learn the event sourcing architecture and its 
   | ------------|-------------|
   | createCart  | Creating new cart with user id|
   | addAnItem   | Add new cart item if not exist in cart. Otherwise only increased cart item quantity|
-  | removeAnItem| Remove a cart item from cart|
-  | removeItem  | Remove single cart item|
+  | removeAnItem| Decrease cart item quantity if cart item exist in shopping cart|
+  | removeItem  | Remove cart item from shopping cart|
   | complete    | Complete shopping |
   ### ShoppingCartSnapshotService
   | Method Name | Explanation |
