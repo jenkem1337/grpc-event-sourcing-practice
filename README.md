@@ -1,7 +1,7 @@
 # Event Sourcing Project
 
 ## Purpose Of Project
-The purpose of this project is to learn the event sourcing architecture and its implementation, and to reinforce this knowledge with a simple example
+The purpose of this project is to learn the event sourcing architecture and its implementation, and to reinforce this knowledge with a simple shopping cart example
 
 ## Architecture Of Project
   * Postgres is used for Event Store
