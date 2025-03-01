@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class ScheduledShoppingCartSnapshotServiceImpl extends ScheduledSnapshotService {
     private final ShoppingCartSnapshotServiceGrpc.ShoppingCartSnapshotServiceBlockingStub stub;
     private static final String LEADER_KEY = "/leader";
-    private static final long LEASE_TTL = 10; // 10 saniye
+    private static final long LEASE_TTL = 10; 
     private  String nodeId;
     private  Lease leaseClient;
     private  Lock lockClient;
